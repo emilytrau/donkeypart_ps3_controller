@@ -396,6 +396,46 @@ class XboxOneJoystick(Joystick):
         }
 
 
+class SwitchProController(Joystick):
+    '''
+    An interface to a physical PS3 joystick available at /dev/input/js1
+    Seems to exhibit slightly different codes because driver is different?
+    when running from ubuntu 16.04, it will interfere w mouse until:
+    xinput set-prop "Sony PLAYSTATION(R)3 Controller" "Device Enabled" 0
+    It also wants /dev/input/js1 device filename, not js0
+    '''
+
+    def __init__(self, *args, **kwargs):
+        super(SwitchProController, self).__init__(*args, **kwargs)
+
+        self.axis_names = {
+            0x00: 'left_stick_horz',
+            0x01: 'left_stick_vert',
+            0x03: 'right_stick_horz',
+            0x04: 'right_stick_vert',
+
+            0x10: 'dpad_horz',
+            0x11: 'dpad_vert',
+        }
+
+        self.button_names = {
+            0x13a: 'minus',
+            0x13b: 'plus',
+            0x135: 'start',
+            0x13c: 'home',
+
+            0x136: 'L',
+            0x137: 'R',
+            0x138: 'ZL',
+            0x139: 'ZR',
+
+            0x133: "x",
+            0x131: "a",
+            0x130: "b",
+            0x134: 'y',
+        }
+
+
 class UnknownJoystick(Joystick):
     '''
     An interface to an unknown physical joystick
